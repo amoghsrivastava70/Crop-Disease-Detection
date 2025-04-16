@@ -1,4 +1,5 @@
 from flask import Flask , render_template , request 
+import requests
 import tensorflow as tf 
 from PIL import Image
 import numpy as np
@@ -58,10 +59,30 @@ def prediction():
 
     predicted_class = class_labels[np.argmax(output_data)]
     
-    # img_url = '/' + filepath.replace('\\', '/')
-    # print(img_url)
+    img_url = '/' + filepath.replace('\\', '/')
+    
+    
+    api_key="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"
+    url="https://openrouter.ai/api/v1/chat/completions"
+    
+    headers = {"Authorization" : f"Bearer {api_key}" , "Content-Type":"application/json"}
+    
+    data = {
+        "model": "deepseek/deepseek-chat:free",
+        "messages": [{"role": "user", "content": f"Provide me details about the Crop Disease '{predicted_class}' with its cause and fix"}]
+    }
+    ai_res=""
+    response=requests.post(url,headers=headers , json=data)
+    print(response)
+    if response.status_code==200:
+        data_ret=response.json()["choices"][0]["message"]["content"].replace('**','')
+        ai_res+=data_ret
+    else:
+        ai_res+="Sorry Unavailable"
+    
+    
 
-    return render_template('index.html', prediction=predicted_class , image_url=filepath)
+    return render_template('index.html', prediction=predicted_class , image_url=img_url , info=ai_res)
 
 
 if __name__ == "__main__":
