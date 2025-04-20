@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+
+    <title>LeafGuard: Early Warning System for Plant Diseases</title>
+</head>
+
+<body class="bg-gray-900">
+
+    <h1 class="my-4 text-7xl font-bold text-center text-white">
+        LeafGuard
+    </h1>
+
+
+    <main class="flex items-center justify-center my-10">
+
+        <form action="/predict" method="post" enctype="multipart/form-data"
+            class="w-full max-w-md bg-slate-800 rounded-2xl shadow-lg p-6 space-y-4 ">
+            <h2 class="text-2xl font-semibold text-white text-center">Upload Your File</h2>
+
+            <div class="flex items-center justify-center w-full">
+                <label for="file-upload"
+                    class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-8 h-8 mb-2 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 16v-8m0 0l-3 3m3-3l3 3m6 1a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="mb-1 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag
+                            and drop</p>
+                        <p class="text-xs text-gray-400">SVG, PNG, JPG, PDF up to 10MB</p>
+                    </div>
+                    <input id="file-upload" name="image" type="file" class="hidden" accept="image/*" required />
+                </label>
+            </div>
+
+            <button type="submit" value="Predict"
+                class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition">
+                Submit
+            </button>
+        </form>
+    </main>
+
+    <div class="max-w-xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-md space-y-6 text-center">
+
+        {% if image_url %}
+        <div>
+            <h4 class="text-lg font-semibold text-gray-700 mb-2">Uploaded Image:</h4>
+            <img src="{{ image_url }}" alt="Uploaded" class="mx-auto max-w-full max-h-[500px] rounded-lg shadow" />
+        </div>
+        {% endif %}
+
+        {% if prediction %}
+        <div>
+            <h3 class="text-xl font-bold text-blue-600">Prediction: {{ prediction }}</h3>
+        </div>
+        {% endif %}
+
+        {% if info %}
+        <div>
+            <p class="">{{ info }}</p>
+        </div>
+        {% endif %}
+        {% if audio_file %}
+        <div>
+            <h3>Playback : </h3>
+            <audio controls>
+                <source src="{{ audio_file }}" type="audio/mpeg">
+            </audio>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
