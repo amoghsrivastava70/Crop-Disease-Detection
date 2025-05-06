@@ -99,9 +99,3 @@ The model upon succesfull training is able to identify 12 plant disease based on
 ![Model Loss Graph](images/loss.jpg)
 
 ---
-
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/amoghsrivastava70/Crop-Disease-Detection-The-Tr.A.I.os-
-   cd Crop-Disease-Detection-The-Tr.A.I.os
